@@ -172,8 +172,8 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDangXuat))
         );
@@ -194,53 +194,49 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupActionPerformed
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         // TODO add your handling code here:
-        CreateGroupFrame createGroupFrame = new CreateGroupFrame(client,username);
-       createGroupFrame.setVisible(true);
-        
-    }//GEN-LAST:event_btnCreateGroupActionPerformed
+        int option = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất?");
+        if(option==0)
+        {
+            client.send(new Message("signout",username,"true","server"));
+            clientThread.stop();
+            System.exit(0);
+        }
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
     private void listGroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listGroupMouseClicked
         // TODO add your handling code here:
         try {
-             listGroup = (JList)evt.getSource();
-        if(evt.getClickCount()==2)
-        {
-            int index = listGroup.locationToIndex(evt.getPoint());
-            String groupName = listGroup.getSelectedValue().toString();
-            
-               
-            if(client.FindGroupFame(groupName)!=-1)
+            listGroup = (JList)evt.getSource();
+            if(evt.getClickCount()==2)
             {
-                 for(int i = 0; i<model.getSize();i++)
-                 {
-                     client.groupChatFrames[client.FindGroupFame(groupName)].onlineModel.addElement(model.getElementAt(i));
-                     
-                 }
-                 
-                 client.send(new Message("GroupChatGetUserList", username, groupName, "Server"));
-                 client.groupChatFrames[client.FindGroupFame(groupName)].setVisible(true);
-                
+                int index = listGroup.locationToIndex(evt.getPoint());
+                String groupName = listGroup.getSelectedValue().toString();
+
+                if(client.FindGroupFame(groupName)!=-1)
+                {
+                    //                 for(int i = 0; i<model.getSize();i++)
+                    //                 {
+                        //                     client.groupChatFrames[client.FindGroupFame(groupName)].onlineModel.addElement(model.getElementAt(i));
+                        //
+                        //                 }
+
+                    client.send(new Message("GroupChatGetUserList", username, groupName, "Server"));
+                    client.groupChatFrames[client.FindGroupFame(groupName)].setVisible(true);
+
+                }
             }
-        }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "LoadNhomErro"+ e.toString());
         }
-       
     }//GEN-LAST:event_listGroupMouseClicked
 
-    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+    private void btnCreateGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGroupActionPerformed
         // TODO add your handling code here:
-         int option = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất?");
-            if(option==0)
-            {
-                client.send(new Message("signout",username,"true","server"));
-                clientThread.stop();
-                System.exit(0);
-            }
-            
-    }//GEN-LAST:event_btnDangXuatActionPerformed
+        CreateGroupFrame createGroupFrame = new CreateGroupFrame(client,username);
+        createGroupFrame.setVisible(true);
+    }//GEN-LAST:event_btnCreateGroupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,7 +273,7 @@ public class MainFrame extends javax.swing.JFrame {
                client.privateChatFrames[client.countChatFrame] = new PrivateChatFrame(client, target , username);
                client.privateChatFrames[client.countChatFrame].setVisible(true);
                client.countChatFrame++;
-               client.send(new Message(target, target, target, target));
+              // client.send(new Message(target, target, target, target));
            }
        }else
            if(client.FindChatFrame(target)!=-1)
@@ -297,7 +293,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JLabel lbName;
-    public javax.swing.JList listGroup;
-    public javax.swing.JList listUser;
+    private javax.swing.JList listGroup;
+    private javax.swing.JList listUser;
     // End of variables declaration//GEN-END:variables
 }

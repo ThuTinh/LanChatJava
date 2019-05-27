@@ -20,15 +20,15 @@ import javax.swing.text.StyledDocument;
  */
 public class HistoryFrame extends javax.swing.JFrame {
 
-    public  String user="";
-    public  String taget="";
-    public  String groupName="";
+    public String user = "";
+    public String taget = "";
+    public String groupName = "";
+
     /**
      * Creates new form HistoryChat
      */
-    
-    
-     public HistoryFrame(String sender, String receipient) {
+
+    public HistoryFrame(String sender, String receipient) {
         this.user = sender;
         this.taget = receipient;
         initComponents();
@@ -44,15 +44,15 @@ public class HistoryFrame extends javax.swing.JFrame {
             }
         });
     }
-     
+
     public HistoryFrame(String user, String groupname, String empty) {
-       this.user = user;
-       this.groupName = groupname;
+        this.user = user;
+        this.groupName = groupname;
         initComponents();
         this.setVisible(true);
         this.txtHistory.setEditable(false);
         this.setTitle("History");
-         setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 txtHistory.setText("");
@@ -105,7 +105,7 @@ public class HistoryFrame extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(txtHistory);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 323, 278));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 8, 310, 270));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,60 +124,52 @@ public class HistoryFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
-    public JTextPane getTxtHistory()
-    {
+    public JTextPane getTxtHistory() {
         return txtHistory;
     }
-    public  void AddMessage(String sender, String resiver , String content )
-    {
+
+    public void AddMessage(String sender, String resiver, String content) {
         // String arr[] = content.split("/");
-        if(sender.equals(user)&&resiver.equals(taget))
-        {
+        if (sender.equals(user) && resiver.equals(taget)) {
             StyledDocument doc = txtHistory.getStyledDocument();
             SimpleAttributeSet right = new SimpleAttributeSet();
             StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
             Style style = txtHistory.addStyle(null, null);
             StyleConstants.setForeground(style, Color.blue);
-           
+
             try {
-               
-                        
+
                 int length = doc.getLength();
 //                 doc.insertString(doc.getLength(),arr[0]+": ", style);
-                 doc.insertString(doc.getLength(),content+"\n", style);
-                doc.setParagraphAttributes(length+1, 1, right, false);
-            }
-            catch(Exception e) {
+                doc.insertString(doc.getLength(), content + "\n", style);
+                doc.setParagraphAttributes(length + 1, 1, right, false);
+            } catch (Exception e) {
                 System.out.println(e);
             }
-        }
-        else
-        {
-            if (sender.equals(taget) && resiver.equals(user)){
-            StyledDocument doc = txtHistory.getStyledDocument();
-            SimpleAttributeSet left = new SimpleAttributeSet();
-            StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-            Style style = txtHistory.addStyle(null, null);
-            StyleConstants.setForeground(style, Color.black);
-            
-            try {
-                int length = doc.getLength();
+        } else {
+            if (sender.equals(taget) && resiver.equals(user)) {
+                StyledDocument doc = txtHistory.getStyledDocument();
+                SimpleAttributeSet left = new SimpleAttributeSet();
+                StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+                Style style = txtHistory.addStyle(null, null);
+                StyleConstants.setForeground(style, Color.black);
+
+                try {
+                    int length = doc.getLength();
 //                 doc.insertString(doc.getLength(),arr[0]+": ", style);
-                  doc.insertString(doc.getLength(),content+"\n", style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
-            }
-            catch(Exception e) {
-                System.out.println(e);
+                    doc.insertString(doc.getLength(), content + "\n", style);
+                    doc.setParagraphAttributes(length + 1, 1, left, false);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         }
-        }
-        
+
     }
-    
-       public void AddGroupMessage(String sender, String groupName, String content){
+
+    public void AddGroupMessage(String sender, String groupName, String content) {
         String temp_sender = "";
-        if (groupName.equals(this.groupName) && sender.equals(this.user)){
+        if (groupName.equals(this.groupName) && sender.equals(this.user)) {
             StyledDocument doc = txtHistory.getStyledDocument();
             SimpleAttributeSet left = new SimpleAttributeSet();
             StyleConstants.setAlignment(left, StyleConstants.ALIGN_RIGHT);
@@ -187,14 +179,12 @@ public class HistoryFrame extends javax.swing.JFrame {
             try {
                 int length = doc.getLength();
                 doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
-            }
-            catch(Exception e) {
+                doc.setParagraphAttributes(length + 1, 1, left, false);
+            } catch (Exception e) {
                 System.out.println(e);
             }
-        }
-        else if (groupName.equals(this.groupName) && !sender.equals(this.user)){
-            if (!sender.equals(temp_sender)){
+        } else if (groupName.equals(this.groupName) && !sender.equals(this.user)) {
+            if (!sender.equals(temp_sender)) {
                 temp_sender = sender;
                 StyledDocument doc = txtHistory.getStyledDocument();
                 SimpleAttributeSet left = new SimpleAttributeSet();
@@ -205,9 +195,8 @@ public class HistoryFrame extends javax.swing.JFrame {
                 try {
                     int length = doc.getLength();
                     doc.insertString(doc.getLength(), message, style);
-                    doc.setParagraphAttributes(length+1, 1, left, false);
-                }
-                catch(Exception e) {
+                    doc.setParagraphAttributes(length + 1, 1, left, false);
+                } catch (Exception e) {
                     System.out.println(e);
                 }
             }
@@ -220,9 +209,8 @@ public class HistoryFrame extends javax.swing.JFrame {
             try {
                 int length = doc.getLength();
                 doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
-            }
-            catch(Exception e) {
+                doc.setParagraphAttributes(length + 1, 1, left, false);
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }

@@ -265,8 +265,10 @@ public class Data {
         ps.setString(2, userName);
         if(ps.executeUpdate()==1)
         {
-            
+            sqlConnection.CloseConnection();
+            return true;
         }
+       sqlConnection.CloseConnection();
         return false;
         
     }

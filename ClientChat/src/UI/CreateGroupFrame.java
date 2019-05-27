@@ -7,6 +7,8 @@ package UI;
 
 import Logic.Message;
 import Logic.SocketClient;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Console;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -30,6 +32,12 @@ public class CreateGroupFrame extends javax.swing.JFrame {
         socket = socketClient;
         this.username = username;
       this.setTitle("Add Group");  
+       setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {              
+                setVisible(false);
+            }
+        });
     }
 
     public JButton getBtnAdd() {
@@ -115,9 +123,7 @@ public class CreateGroupFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

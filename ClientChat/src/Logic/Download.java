@@ -26,27 +26,27 @@ import javax.swing.text.StyledDocument;
  *
  * @author Thu Tinh
  */
-public class Download implements  Runnable{
-     public ServerSocket server;
+public class Download implements Runnable {
+
+    public ServerSocket server;
     public Socket socket;
     public int port;
     public String saveTo = "";
     public InputStream In;
     public FileOutputStream Out;
     public PrivateChatFrame chatFrame;
-    public  String tenFile;
-    
-    public Download(String saveTo,String tenFile, PrivateChatFrame chatFrame){
+    public String tenFile;
+
+    public Download(String saveTo, String tenFile, PrivateChatFrame chatFrame) {
         try {
             server = new ServerSocket(0);
             port = server.getLocalPort();
             this.saveTo = saveTo;
             this.chatFrame = chatFrame;
             this.tenFile = tenFile;
-            
-        } 
-        catch (IOException ex) {
-            System.out.println("Exception [Download : Download(...)]");
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(chatFrame, "down load khoitao" + ex);
         }
     }
 
@@ -54,20 +54,19 @@ public class Download implements  Runnable{
     public void run() {
         try {
             socket = server.accept();
-            System.out.println("Download : "+socket.getRemoteSocketAddress());
-            
+            System.out.println("Download : " + socket.getRemoteSocketAddress());
+
             In = socket.getInputStream();
             Out = new FileOutputStream(saveTo);
-            
+
             byte[] buffer = new byte[1024];
             int count;
-            
-            while((count = In.read(buffer)) >= 0){
+
+            while ((count = In.read(buffer)) >= 0) {
                 Out.write(buffer, 0, count);
             }
-            
+
             Out.flush();
-            
             StyledDocument doc = chatFrame.getTxtMessageInfo().getStyledDocument();
             SimpleAttributeSet left = new SimpleAttributeSet();
             StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
@@ -75,33 +74,33 @@ public class Download implements  Runnable{
             StyleConstants.setForeground(style, Color.MAGENTA);
             StyleConstants.setUnderline(left, true);
             String message = tenFile + "\n";
-            try{
+            try {
                 int length = doc.getLength();
                 doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
-                
-               
-              if(  JOptionPane.showConfirmDialog(chatFrame, "Mởi file " + tenFile + " ngay bây giờ ?")==0)
-              {
-                  Desktop desktop = Desktop.getDesktop();
-                   File file = new File(saveTo);
-                    if(file.exists())
-                    desktop.open(file);
-              }
-    
-            }
-            catch(Exception e) {  
+                doc.setParagraphAttributes(length + 1, 1, left, false);
+
+                if (JOptionPane.showConfirmDialog(chatFrame, "Mởi file " + tenFile + " ngay bây giờ ?") == 0) {
+                    Desktop desktop = Desktop.getDesktop();
+                    File file = new File(saveTo);
+                    if (file.exists()) {
+                        desktop.open(file);
+                    }
+                }
+
+            } catch (Exception e) {
                 JOptionPane.showMessageDialog(chatFrame, "Không thể mở file");
-            }           
-            if(Out != null) 
-                Out.close(); 
-            if(In != null) 
-                In.close(); 
-            if(socket != null) 
-                socket.close(); 
-        } 
-        catch (Exception ex) {
-           JOptionPane.showMessageDialog(chatFrame, "Dowload " + ex.toString());
+            }
+            if (Out != null) {
+                Out.close();
+            }
+            if (In != null) {
+                In.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(chatFrame, "Dowload " + ex.toString());
         }
     }
 }

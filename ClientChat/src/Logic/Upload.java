@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -21,7 +22,7 @@ import javax.swing.text.StyledDocument;
  * @author Thu Tinh
  */
 public class Upload implements Runnable{
-     public String addr;
+    public String addr;
     public int port;
     public Socket socket;
     public FileInputStream In;
@@ -65,7 +66,7 @@ public class Upload implements Runnable{
                 doc.setParagraphAttributes(length+1, 1, left, false);
             }
             catch(Exception e) { 
-                System.out.println(e);
+               JOptionPane.showMessageDialog(chatFrame, "upload fail" +e);
             }
             
             if(In != null)
