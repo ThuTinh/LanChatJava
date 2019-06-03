@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -36,7 +36,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="66" green="66" red="0" type="rgb"/>
+          <Color blue="31" green="5a" red="d6" type="rgb"/>
         </Property>
       </Properties>
 
@@ -46,9 +46,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="btnCancel" min="-2" pref="65" max="-2" attributes="0"/>
-                          <EmptySpace pref="71" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="84" max="32767" attributes="0"/>
                           <Component id="btnAdd" min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,6 +9,7 @@ package UI;
 import Logic.Message;
 import Logic.SocketClient;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,39 +30,39 @@ import javax.swing.text.StyledDocument;
  */
 public class GroupChatFrame extends javax.swing.JFrame {
 
-    SocketClient socket ;
+    SocketClient socket;
     Thread thread;
-    public  String userName;
-    public String nameGroup ;
-    public  String choosingItem = "";
-    public  String lastUser = "";
+    public String userName;
+    public String nameGroup;
+    public String choosingItem = "";
+    public String lastUser = "";
     public DefaultListModel onlineModel, memberModel;
+
     /**
      * Creates new form GroupChatFrame
      */
-    public GroupChatFrame( SocketClient socketClient, String user , String name, MainFrame mainFrame)
-    {
+    public GroupChatFrame(SocketClient socketClient, String user, String name, MainFrame mainFrame) {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconchat.png")));
         txtMessage.requestFocus();
         txtMessageInfo.setEditable(false);
         this.socket = socketClient;
         this.userName = user;
-        this.nameGroup = name ;
+        this.nameGroup = name;
         super.setResizable(false);
-        for(int i = 0; i<mainFrame.model.getSize();i++)
-        {
-            
-            onlineModel.addElement(mainFrame.model.getElementAt(i));  
+        for (int i = 0; i < mainFrame.model.getSize(); i++) {
+
+            onlineModel.addElement(mainFrame.model.getElementAt(i));
             //JOptionPane.showMessageDialog(null,"Them user"+mainFrame.model.getElementAt(i));
         }
         this.setTitle(nameGroup);
-         setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 setVisible(false);
             }
         });
-        
+
     }
 
     public JButton getBtnAdd() {
@@ -83,7 +85,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
         return txtMessageInfo;
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,7 +110,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(214, 90, 49));
 
         txtMessageInfo.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jScrollPane1.setViewportView(txtMessageInfo);
@@ -137,7 +138,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Online");
 
         lsOnline.setModel( onlineModel = new DefaultListModel());
@@ -158,7 +158,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
         lsMember.setModel(memberModel = new DefaultListModel());
         jScrollPane3.setViewportView(lsMember);
 
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Members");
 
         btnQuit.setText("Quit");
@@ -248,59 +247,55 @@ public class GroupChatFrame extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        if(choosingItem!="")
-            socket.send(new Message("AddMemberGroup", userName,choosingItem, nameGroup));
+        if (choosingItem != "") {
+            socket.send(new Message("AddMemberGroup", userName, choosingItem, nameGroup));
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void lsOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lsOnlineMouseClicked
         // TODO add your handling code here:
-        lsOnline = (JList)evt.getSource();
-        if(evt.getClickCount()==1)
-        {
+        lsOnline = (JList) evt.getSource();
+        if (evt.getClickCount() == 1) {
             int index = lsOnline.locationToIndex(evt.getPoint());
             choosingItem = lsOnline.getSelectedValue().toString();
         }
-        if(evt.getClickCount()==2)
-        {
+        if (evt.getClickCount() == 2) {
             int index = lsOnline.locationToIndex(evt.getPoint());
             choosingItem = lsOnline.getSelectedValue().toString();
-           socket.send(new Message("AddMemberGroup", userName,choosingItem, nameGroup));
-            
+            socket.send(new Message("AddMemberGroup", userName, choosingItem, nameGroup));
+
         }
     }//GEN-LAST:event_lsOnlineMouseClicked
 
     private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() ==KeyEvent.VK_ENTER)
-        {
-            if(!txtMessage.getText().isEmpty())
-            {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!txtMessage.getText().isEmpty()) {
                 String msg = txtMessage.getText();
                 StyledDocument doc = txtMessageInfo.getStyledDocument();
                 SimpleAttributeSet right = new SimpleAttributeSet();
                 StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-                Style style = txtMessageInfo.addStyle(null,null);
+                Style style = txtMessageInfo.addStyle(null, null);
                 StyleConstants.setForeground(style, Color.blue);
                 try {
-                    String message = msg+"\n";
+                    String message = msg + "\n";
                     int lenght = doc.getLength();
                     doc.insertString(lenght, message, style);
-                    doc.setParagraphAttributes(lenght+1, 1, right, false);
-                     socket.send(new Message("GroupChat", userName, msg, nameGroup));
+                    doc.setParagraphAttributes(lenght + 1, 1, right, false);
+                    socket.send(new Message("GroupChat", userName, msg, nameGroup));
                     txtMessage.setText("");
                 } catch (Exception e) {
-                   
-                }  
+
+                }
             }
         }
     }//GEN-LAST:event_txtMessageKeyPressed
 
     private void btnQuitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitMouseClicked
         // TODO add your handling code here:
-        int option = JOptionPane.showConfirmDialog(null, "Do you want to leave group","Thông tin",JOptionPane.YES_NO_OPTION);
-        if(option==JOptionPane.YES_OPTION)
-        {
-            socket.send(new Message("groupchat-leave", userName, "true",nameGroup ));
+        int option = JOptionPane.showConfirmDialog(null, "Do you want to leave group", "Thông tin", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            socket.send(new Message("groupchat-leave", userName, "true", nameGroup));
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnQuitMouseClicked
@@ -313,40 +308,36 @@ public class GroupChatFrame extends javax.swing.JFrame {
 
     private void btnhistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhistoryActionPerformed
         // TODO add your handling code here:
-     //   socket.send(new Message("GroupChatHistory", userName, nameGroup, "Server"));
-        
+        //   socket.send(new Message("GroupChatHistory", userName, nameGroup, "Server"));
+
     }//GEN-LAST:event_btnhistoryActionPerformed
 
     private void btnhistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnhistoryMouseClicked
         // TODO add your handling code here:
         try {
-              socket.send(new Message("GroupChatHistory", userName, nameGroup, "Server"));
-             
-                      
+            socket.send(new Message("GroupChatHistory", userName, nameGroup, "Server"));
+
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(rootPane, "Chạy chưa dc nè" +e.toString() );
+            JOptionPane.showMessageDialog(rootPane, "Chạy chưa dc nè" + e.toString());
         }
-       
+
     }//GEN-LAST:event_btnhistoryMouseClicked
 
-    public  void AddMember(String name)
-    {
+    public void AddMember(String name) {
         this.memberModel.addElement(name);
     }
-    public  void MoveUserFromUserToMemberModel(String name)
-    {
-        for(int i = 0; i<onlineModel.getSize();i++)
-        {
-            if(onlineModel.getElementAt(i).equals(name))
-            {
+
+    public void MoveUserFromUserToMemberModel(String name) {
+        for (int i = 0; i < onlineModel.getSize(); i++) {
+            if (onlineModel.getElementAt(i).equals(name)) {
                 onlineModel.removeElementAt(i);
                 AddMember(name);
                 break;
             }
-            
+
         }
     }
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnQuit;
@@ -364,8 +355,8 @@ public class GroupChatFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void MoveUserFromUserToAddModel(String name) {
-         for (int i = 0; i < memberModel.getSize(); i++){
-            if (memberModel.getElementAt(i).equals(name)){
+        for (int i = 0; i < memberModel.getSize(); i++) {
+            if (memberModel.getElementAt(i).equals(name)) {
                 memberModel.removeElementAt(i);
                 onlineModel.addElement(name);
                 break;

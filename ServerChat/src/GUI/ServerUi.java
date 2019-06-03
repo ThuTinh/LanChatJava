@@ -6,6 +6,7 @@
 package GUI;
 
 import Logic.Server;
+import java.awt.Toolkit;
 import java.io.IOException;
 import javax.swing.JTextArea;
 
@@ -21,6 +22,7 @@ public class ServerUi extends javax.swing.JFrame {
      */
     public ServerUi() throws IOException {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("server.png")));
         super.setResizable(false);
         server = new Server(this);
         txtMessage.setEditable(false);

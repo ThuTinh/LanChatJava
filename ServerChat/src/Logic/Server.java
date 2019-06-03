@@ -99,19 +99,16 @@ public class Server implements Runnable {
                 SignUp(portClient, msg);
                 break;
             case "signin":
-
                 SignIn(portClient, msg);
                 break;
             case "signout":
                 SignOut(portClient, msg);
             case "privatechat":
-
                 PrivateChat(portClient, msg);
                 break;
             case "showHistory":
                 ShowHistory(portClient, msg);
                 break;
-
             case "CreateGroup":
                 CreateGroup(portClient, msg);
                 break;
@@ -146,8 +143,6 @@ public class Server implements Runnable {
             } catch (Exception e) {
                 // JOptionPane.showMessageDialog(null,"Lỗi dữ liệu");
             }
-
-            clients[FindClient(portClient)].setUsername(msg.getSender());
             clients[FindClient(portClient)].send(new Message("signup", "Server", "True", msg.getSender()));
             // clients[FindClient(portClient)].send(new Message("signin","Server", "True", msg.getSender()));
             SignIn(portClient, msg);
@@ -185,19 +180,35 @@ public class Server implements Runnable {
     private void SignIn(int portClient, Message msg) throws SQLException {
         try {
             if (db.UserExists(msg.getSender()) == true) {
-                clients[FindClient(portClient)].setUsername(msg.getSender());
-                clients[FindClient(portClient)].send(new Message("signin", "Server", "True", msg.getSender()));
-                SendListUser(portClient);
-                SendNewUser(portClient, msg.getSender());
-                for (int i = 0; i < lsGroupChat.size(); i++) {
-                    for (int j = 0; j < lsGroupChat.get(i).lsClientName.size(); j++) {
-                        if (lsGroupChat.get(i).lsClientName.get(j).equals(msg.getSender())) {
-                            clients[FindCient(msg.getSender())].send(new Message("ListGroup", "Server", lsGroupChat.get(i).groupName, msg.getSender()));
-                        }
+                boolean isExist = false;
+                for (int i = 0; i < count; i++) {
 
+                    if (clients[i] != null) {
+                        if (msg.getSender().equals(clients[i].getUsername())) {
+                            isExist = true;
+                            break;
+                        }
                     }
 
                 }
+                if (!isExist) {
+                    clients[FindClient(portClient)].setUsername(msg.getSender());
+                    clients[FindClient(portClient)].send(new Message("signin", "Server", "True", msg.getSender()));
+                    SendListUser(portClient);
+                    SendNewUser(portClient, msg.getSender());
+                    for (int i = 0; i < lsGroupChat.size(); i++) {
+                        for (int j = 0; j < lsGroupChat.get(i).lsClientName.size(); j++) {
+                            if (lsGroupChat.get(i).lsClientName.get(j).equals(msg.getSender())) {
+                                clients[FindCient(msg.getSender())].send(new Message("ListGroup", "Server", lsGroupChat.get(i).groupName, msg.getSender()));
+                            }
+
+                        }
+
+                    }
+                } else {
+                    clients[FindClient(portClient)].send(new Message("signin", "Server", "DaDangNhap", msg.getSender()));
+                }
+
             } else {
                 clients[FindClient(portClient)].send(new Message("signin", "Server", "false", msg.getSender()));
             }

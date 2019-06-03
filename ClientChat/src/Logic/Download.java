@@ -79,7 +79,7 @@ public class Download implements Runnable {
                 doc.insertString(doc.getLength(), message, style);
                 doc.setParagraphAttributes(length + 1, 1, left, false);
 
-                if (JOptionPane.showConfirmDialog(chatFrame, "Mởi file " + tenFile + " ngay bây giờ ?") == 0) {
+                if (JOptionPane.showConfirmDialog(chatFrame, "Mởi file " + tenFile + " ngay bây giờ ?", "Thông báo", JOptionPane.YES_NO_OPTION) == 0) {
                     Desktop desktop = Desktop.getDesktop();
                     File file = new File(saveTo);
                     if (file.exists()) {

@@ -43,6 +43,7 @@ public class SocketClient implements Runnable {
     public ArrayList<HistoryFrame> lsHistoryFrame;
     public int countChatFrame = 0;
     public int countGroupFrame = 0;
+
     public SocketClient(LoignFrame lf) throws IOException {
         if (lf.serverIP != "") {
             try {
@@ -134,12 +135,13 @@ public class SocketClient implements Runnable {
                         break;
                     case "signup":
                         if (msg.content.equalsIgnoreCase("true")) {
-                            JOptionPane.showMessageDialog(null, "Sign up successfull");
+                            JOptionPane.showMessageDialog(null, "Đăng kí thành công!!");
                             loignFrame.getTxfUsername().setText("");
                             loignFrame.getTxtPassword().setText("");
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "Account already exists");
+
+                            JOptionPane.showMessageDialog(null, "Tên này đã tồn tại");
                         }
                         break;
                     case "signout": {
@@ -169,7 +171,11 @@ public class SocketClient implements Runnable {
                             mainFrame = new MainFrame(this, msg.recipient, loignFrame.clientThread);
                             mainFrame.setVisible(true);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!!");
+                            if (msg.content.equalsIgnoreCase("DaDangNhap")) {
+                                JOptionPane.showMessageDialog(null, "Tài khoản này đã được đăng nhập trong hệ thống!!");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Tài khoản này không tồn tại!!");
+                            }
                         }
                         break;
                     }
@@ -266,23 +272,26 @@ public class SocketClient implements Runnable {
                             doc.setParagraphAttributes(length + 1, 1, left, false);
 
                         }
-
                     }
                     break;
                     case "showHistory": {
-
-                        if (FindHistoryFrame(msg.sender, msg.recipient) == -1) {
-                            HistoryFrame historyFrame;
-                            if (msg.sender.equals(mainFrame.username)) {
+                        if (msg.sender.equalsIgnoreCase(mainFrame.username)) {
+                            if (FindHistoryFrame(msg.sender, msg.recipient) == -1) {
+                                HistoryFrame historyFrame;
                                 historyFrame = new HistoryFrame(msg.sender, msg.recipient);
-
-                            } else {
-                                historyFrame = new HistoryFrame(msg.recipient, msg.sender);
+                                lsHistoryFrame.add(historyFrame);
+                            }                         
+                            lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).setVisible(true);
+                            lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).AddMessage(msg.sender, msg.recipient, msg.content);
+                        } else {
+                            if (FindHistoryFrame(mainFrame.username, msg.sender) == -1) {
+                                HistoryFrame historyFrame;
+                                historyFrame = new HistoryFrame(mainFrame.username, msg.sender);
+                                lsHistoryFrame.add(historyFrame);
                             }
-                            lsHistoryFrame.add(historyFrame);
+                            lsHistoryFrame.get(FindHistoryFrame(mainFrame.username, msg.sender)).setVisible(true);
+                            lsHistoryFrame.get(FindHistoryFrame(mainFrame.username, msg.sender)).AddMessage( msg.sender,msg.recipient, msg.content);
                         }
-                        lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).setVisible(true);
-                        lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).AddMessage(msg.sender, msg.recipient, msg.content);
                     }
                     break;
                     case "CreateGroupChat": {
@@ -396,7 +405,7 @@ public class SocketClient implements Runnable {
                             doc.insertString(doc.getLength(), message, style);
                             doc.setParagraphAttributes(length + 1, 1, right, false);
                         } catch (Exception e) {
-                            System.out.println(e);
+                           // System.out.println(e);
                         }
                     }
                     break;
@@ -428,7 +437,7 @@ public class SocketClient implements Runnable {
                                 doc.insertString(doc.getLength(), message, style);
                                 doc.setParagraphAttributes(length + 1, 1, right, false);
                             } catch (Exception e) {
-                                System.out.println(e);
+                               // System.out.println(e);
                             }
                         }
 
@@ -447,11 +456,9 @@ public class SocketClient implements Runnable {
                     break;
                     case "GroupChatHistory": {
                         if (FindHistoryGroupFrame(msg.recipient) == -1) {
-                            HistoryFrame historyFrame = new HistoryFrame(msg.sender, msg.recipient, "");
+                            HistoryFrame historyFrame = new HistoryFrame(mainFrame.username, msg.recipient, "");
                             lsHistoryFrame.add(historyFrame);
-
                         }
-
                         lsHistoryFrame.get(FindHistoryGroupFrame(msg.recipient)).setVisible(true);
                         lsHistoryFrame.get(FindHistoryGroupFrame(msg.recipient)).AddGroupMessage(msg.sender, msg.recipient, msg.content);
 
@@ -471,7 +478,7 @@ public class SocketClient implements Runnable {
                                 }
                             }
                             int chatFrameNumber = FindChatFrame(msg.sender);
-                            if (JOptionPane.showConfirmDialog(privateChatFrames[chatFrameNumber], ("Accept" + msg.content + "from " + msg.sender + "?")) == 0) {
+                            if (JOptionPane.showConfirmDialog(privateChatFrames[chatFrameNumber], ("Accept" + msg.content + "from " + msg.sender + "?"), "Thông báo",  JOptionPane.YES_NO_OPTION) == 0) {
                                 JFileChooser jf = new JFileChooser();
                                 jf.setSelectedFile(new File(msg.content));
                                 int returnVal = jf.showSaveDialog(privateChatFrames[chatFrameNumber]);
@@ -498,7 +505,7 @@ public class SocketClient implements Runnable {
 
                     }
                     break;
-                    case "UploadRes": {                  
+                    case "UploadRes": {
                         String[] arr = msg.content.split("-");
                         if (FindChatFrame(msg.sender) != -1) {
                             int index = FindChatFrame(msg.sender);

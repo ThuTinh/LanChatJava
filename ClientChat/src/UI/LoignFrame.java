@@ -7,6 +7,7 @@ package UI;
 
 import Logic.Message;
 import Logic.SocketClient;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ public class LoignFrame extends javax.swing.JFrame {
      */
     public LoignFrame() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("sign.png")));
         super.setResizable(false);
     }
 

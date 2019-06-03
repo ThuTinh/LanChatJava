@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/HK6/LapTrinhJava/DoAn/ClientChat/src/UI/GroupChatFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/PrivateChatFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/HistoryFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/MainFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/GroupChatFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/LoignFrame.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/Logic/Upload.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/Logic/Message.java</file>
+            <file>file:/D:/HK6/LapTrinhJava/DoAn/LanChat/ClientChat/src/UI/CreateGroupFrame.java</file>
         </group>
     </open-files>
 </project-private>

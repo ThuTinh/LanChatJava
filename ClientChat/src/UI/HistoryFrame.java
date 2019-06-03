@@ -6,8 +6,10 @@
 package UI;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
@@ -27,14 +29,15 @@ public class HistoryFrame extends javax.swing.JFrame {
     /**
      * Creates new form HistoryChat
      */
-
     public HistoryFrame(String sender, String receipient) {
         this.user = sender;
         this.taget = receipient;
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("history.png")));
         this.setVisible(true);
         this.txtHistory.setEditable(false);
         super.setResizable(false);
+         this.setTitle("History");
         //lblName.setText(target);
         setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -99,24 +102,30 @@ public class HistoryFrame extends javax.swing.JFrame {
         txtHistory = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setBackground(new java.awt.Color(214, 90, 49));
 
         jScrollPane1.setViewportView(txtHistory);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 8, 310, 270));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,6 +136,10 @@ public class HistoryFrame extends javax.swing.JFrame {
     public JTextPane getTxtHistory() {
         return txtHistory;
     }
+    public void SetEmpity ()
+    {
+        txtHistory.setText("");
+    }
 
     public void AddMessage(String sender, String resiver, String content) {
         // String arr[] = content.split("/");
@@ -136,15 +149,13 @@ public class HistoryFrame extends javax.swing.JFrame {
             StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
             Style style = txtHistory.addStyle(null, null);
             StyleConstants.setForeground(style, Color.blue);
-
             try {
-
                 int length = doc.getLength();
 //                 doc.insertString(doc.getLength(),arr[0]+": ", style);
                 doc.insertString(doc.getLength(), content + "\n", style);
                 doc.setParagraphAttributes(length + 1, 1, right, false);
             } catch (Exception e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(rootPane, "Lỗi.."+ e.toString());
             }
         } else {
             if (sender.equals(taget) && resiver.equals(user)) {
@@ -160,7 +171,7 @@ public class HistoryFrame extends javax.swing.JFrame {
                     doc.insertString(doc.getLength(), content + "\n", style);
                     doc.setParagraphAttributes(length + 1, 1, left, false);
                 } catch (Exception e) {
-                    System.out.println(e);
+                     JOptionPane.showMessageDialog(rootPane, "Lỗi.."+ e.toString());
                 }
             }
         }
@@ -168,50 +179,50 @@ public class HistoryFrame extends javax.swing.JFrame {
     }
 
     public void AddGroupMessage(String sender, String groupName, String content) {
-        String temp_sender = "";
+       // String temp_sender = "";
         if (groupName.equals(this.groupName) && sender.equals(this.user)) {
             StyledDocument doc = txtHistory.getStyledDocument();
-            SimpleAttributeSet left = new SimpleAttributeSet();
-            StyleConstants.setAlignment(left, StyleConstants.ALIGN_RIGHT);
+            SimpleAttributeSet right = new SimpleAttributeSet();
+            StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
             Style style = txtHistory.addStyle(null, null);
             StyleConstants.setForeground(style, Color.BLUE);
             String message = content + "\n";
             try {
                 int length = doc.getLength();
                 doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length + 1, 1, left, false);
+                doc.setParagraphAttributes(length + 1, 1, right, false);
             } catch (Exception e) {
-                System.out.println(e);
+                //System.out.println(e);
             }
         } else if (groupName.equals(this.groupName) && !sender.equals(this.user)) {
-            if (!sender.equals(temp_sender)) {
-                temp_sender = sender;
+//            if (!sender.equals(temp_sender)) {
+//                temp_sender = sender;
                 StyledDocument doc = txtHistory.getStyledDocument();
                 SimpleAttributeSet left = new SimpleAttributeSet();
                 StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
                 Style style = txtHistory.addStyle(null, null);
-                StyleConstants.setForeground(style, Color.PINK);
-                String message = sender + " said:\n";
+                StyleConstants.setForeground(style, Color.BLACK);
+                String message = sender + " said:\n" ;
                 try {
                     int length = doc.getLength();
                     doc.insertString(doc.getLength(), message, style);
                     doc.setParagraphAttributes(length + 1, 1, left, false);
                 } catch (Exception e) {
-                    System.out.println(e);
+                  //  System.out.println(e);
                 }
-            }
-            StyledDocument doc = txtHistory.getStyledDocument();
-            SimpleAttributeSet left = new SimpleAttributeSet();
-            StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-            Style style = txtHistory.addStyle(null, null);
-            StyleConstants.setForeground(style, Color.black);
-            String message = content + "\n";
+           // }
+            StyledDocument doc1 = txtHistory.getStyledDocument();
+            SimpleAttributeSet left1 = new SimpleAttributeSet();
+            StyleConstants.setAlignment(left1, StyleConstants.ALIGN_LEFT);
+            Style style1 = txtHistory.addStyle(null, null);
+            StyleConstants.setForeground(style1, Color.RED);
+            String message1 = content + "\n";
             try {
-                int length = doc.getLength();
-                doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length + 1, 1, left, false);
+                int length = doc1.getLength();
+                doc1.insertString(doc1.getLength(), message1, style1);
+                doc1.setParagraphAttributes(length + 1, 1, left1, false);
             } catch (Exception e) {
-                System.out.println(e);
+               // System.out.println(e);
             }
         }
     }
