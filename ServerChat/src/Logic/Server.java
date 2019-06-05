@@ -462,10 +462,11 @@ public class Server implements Runnable {
     private void UploadResGroup(int portClient, Message msg) {
          try {
             if (!msg.getContent().equals("No")) {
+                String [] arr = msg.getRecipient().split("-");
                 if (FindUServerThread(msg.getSender().toString()) != null) {
                     String Ip = FindUServerThread(msg.getSender()).getClient().getInetAddress().getHostAddress();
                     // FindUServerThread(msg.getRecipient()).send(new Message("UploadRes",msg.getSender(),msg.getContent(),msg.getRecipient()));
-                    FindUServerThread(msg.getRecipient()).send(new Message("UploadResGroup", msg.getSender(), msg.getContent() + "-" + Ip, msg.getRecipient()));
+                    FindUServerThread(arr[0]).send(new Message("UploadResGroup", msg.getSender(), msg.getContent() + "-" + Ip, msg.getRecipient()));
 
                 } else {
                 }

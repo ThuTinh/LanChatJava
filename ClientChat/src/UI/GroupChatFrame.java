@@ -500,7 +500,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
                 });
             }
             revalidate();
-             socket.send(new Message("UploadReqGropup", userName, file.getName() + "-" + loai, nameGroup));           
+             socket.send(new Message("UploadReqGroup", userName, file.getName() + "-" + loai, nameGroup));           
             nameFile.setText("");
         } else {
             //            StyledDocument doc = this.getTxtMessageInfo().getStyledDocument();
