@@ -6,19 +6,32 @@
  */
 package UI;
 
+import Logic.Download;
 import Logic.Message;
 import Logic.SocketClient;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -37,12 +50,17 @@ public class GroupChatFrame extends javax.swing.JFrame {
     public String choosingItem = "";
     public String lastUser = "";
     public DefaultListModel onlineModel, memberModel;
+    public  BoxLayout boxLayout;
+    String loai = "file";
+     public File file;
 
     /**
      * Creates new form GroupChatFrame
      */
     public GroupChatFrame(SocketClient socketClient, String user, String name, MainFrame mainFrame) {
         initComponents();
+         boxLayout = new BoxLayout(txtChat, BoxLayout.Y_AXIS);
+        txtChat.setLayout(boxLayout);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconchat.png")));
         txtMessage.requestFocus();
         txtMessageInfo.setEditable(false);
@@ -107,6 +125,13 @@ public class GroupChatFrame extends javax.swing.JFrame {
         lsMember = new javax.swing.JList();
         jLabel2 = new javax.swing.JLabel();
         btnQuit = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        scrollChat = new javax.swing.JScrollPane();
+        txtChat = new javax.swing.JPanel();
+        btnimage = new javax.swing.JButton();
+        btnLink = new javax.swing.JButton();
+        btnSend = new javax.swing.JButton();
+        nameFile = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,57 +197,131 @@ public class GroupChatFrame extends javax.swing.JFrame {
             }
         });
 
+        scrollChat.setBackground(new java.awt.Color(255, 51, 51));
+
+        txtChat.setBackground(new java.awt.Color(102, 102, 255));
+
+        javax.swing.GroupLayout txtChatLayout = new javax.swing.GroupLayout(txtChat);
+        txtChat.setLayout(txtChatLayout);
+        txtChatLayout.setHorizontalGroup(
+            txtChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 315, Short.MAX_VALUE)
+        );
+        txtChatLayout.setVerticalGroup(
+            txtChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 189, Short.MAX_VALUE)
+        );
+
+        scrollChat.setViewportView(txtChat);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(scrollChat, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollChat, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+
+        btnimage.setIcon(new javax.swing.ImageIcon("D:\\HK6\\LapTrinhJava\\DoAn\\LanChat\\ClientChat\\img.png")); // NOI18N
+        btnimage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimageActionPerformed(evt);
+            }
+        });
+
+        btnLink.setIcon(new javax.swing.ImageIcon("D:\\HK6\\LapTrinhJava\\DoAn\\LanChat\\ClientChat\\icons8-link-20.png")); // NOI18N
+        btnLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLinkActionPerformed(evt);
+            }
+        });
+
+        btnSend.setIcon(new javax.swing.ImageIcon("D:\\HK6\\LapTrinhJava\\DoAn\\LanChat\\ClientChat\\icons8-upload-20.png")); // NOI18N
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtMessage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 2, Short.MAX_VALUE)
+                        .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnQuit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnhistory)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(nameFile)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnimage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnhistory))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAdd)
-                        .addGap(10, 10, 10)))
+                        .addGap(0, 44, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAdd)
+                                .addGap(10, 10, 10))
+                            .addComponent(btnQuit, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnhistory)
-                    .addComponent(btnQuit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnimage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnhistory)
+                                .addComponent(btnQuit))
+                            .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameFile))
+                        .addGap(13, 13, 13)))
                 .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -272,6 +371,15 @@ public class GroupChatFrame extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (!txtMessage.getText().isEmpty()) {
                 String msg = txtMessage.getText();
+                //code mới
+                JLabel lbChat = new JLabel("Tôi: " + msg);
+                lbChat.setForeground(Color.ORANGE);
+                txtChat.add(lbChat);
+                revalidate();
+                socket.send(new Message("GroupChat", userName, msg, nameGroup));
+                txtMessage.setText("");
+
+                //code cũ
                 StyledDocument doc = txtMessageInfo.getStyledDocument();
                 SimpleAttributeSet right = new SimpleAttributeSet();
                 StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
@@ -282,8 +390,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
                     int lenght = doc.getLength();
                     doc.insertString(lenght, message, style);
                     doc.setParagraphAttributes(lenght + 1, 1, right, false);
-                    socket.send(new Message("GroupChat", userName, msg, nameGroup));
-                    txtMessage.setText("");
+
                 } catch (Exception e) {
 
                 }
@@ -323,6 +430,96 @@ public class GroupChatFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnhistoryMouseClicked
 
+    private void btnimageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimageActionPerformed
+        // TODO add your handling code here:
+        loai = "img";
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.showDialog(this, "Select file");
+        file = fileChooser.getSelectedFile();
+        nameFile.setText(file.getName());
+    }//GEN-LAST:event_btnimageActionPerformed
+
+    private void btnLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLinkActionPerformed
+        // TODO add your handling code here:
+        loai = "file";
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx","txt"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        //        FileFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "tif");
+        //        fileChooser.addChoosableFileFilter(filter);
+        fileChooser.showDialog(this, "Select file");
+        file = fileChooser.getSelectedFile();
+        nameFile.setText(file.getName());
+    }//GEN-LAST:event_btnLinkActionPerformed
+
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+        long size = file.length();
+        if (size < 120 * 1024 * 1024) {
+            if (loai.equals("img")) {
+                JLabel lbuser = new JLabel();
+                lbuser.setSize(120, 120);
+                JLabel lb = new JLabel("Tôi: ");
+                txtChat.add(lb);
+                ImageIcon icon = new ImageIcon(new ImageIcon(file.getPath()).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
+                lbuser.setIcon(icon);
+                txtChat.add(lbuser);
+                lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        Desktop desktop = Desktop.getDesktop();
+
+                        if (file.exists()) {
+                            try {
+                                desktop.open(file);
+                            } catch (IOException ex) {
+                                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                });
+            } else {
+
+                JLabel lbuser = new JLabel( "Tôi: " + file.getName());
+                lbuser.setForeground(Color.PINK);
+                txtChat.add(lbuser);
+                lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        Desktop desktop = Desktop.getDesktop();
+                        if (file.exists()) {
+                            try {
+                                desktop.open(file);
+                            } catch (IOException ex) {
+                                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                });
+            }
+            revalidate();
+             socket.send(new Message("UploadReqGropup", userName, file.getName() + "-" + loai, nameGroup));           
+            nameFile.setText("");
+        } else {
+            //            StyledDocument doc = this.getTxtMessageInfo().getStyledDocument();
+            //            SimpleAttributeSet left = new SimpleAttributeSet();
+            //            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
+            //            Style style = this.getTxtMessageInfo().addStyle(null, null);
+            //            StyleConstants.setForeground(style, Color.MAGENTA);
+            //            String message = "File quá lớn!" + "\n";
+            //            try {
+                //                int length = doc.getLength();
+                //                doc.insertString(doc.getLength(), message, style);
+                //                doc.setParagraphAttributes(length + 1, 1, left, false);
+                //            } catch (Exception e) {
+                //                System.out.println(e);
+                //            }
+            JOptionPane.showMessageDialog(this, "File quá lớn!!");
+        }
+    }//GEN-LAST:event_btnSendActionPerformed
+
     public void AddMember(String name) {
         this.memberModel.addElement(name);
     }
@@ -338,18 +535,30 @@ public class GroupChatFrame extends javax.swing.JFrame {
         }
     }
 
+    public JPanel getTxtChat() {
+        return txtChat;
+    }
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnLink;
     private javax.swing.JButton btnQuit;
+    private javax.swing.JButton btnSend;
     private javax.swing.JButton btnhistory;
+    private javax.swing.JButton btnimage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList lsMember;
     private javax.swing.JList lsOnline;
+    private javax.swing.JTextField nameFile;
+    private javax.swing.JScrollPane scrollChat;
+    private javax.swing.JPanel txtChat;
     private javax.swing.JTextField txtMessage;
     private javax.swing.JTextPane txtMessageInfo;
     // End of variables declaration//GEN-END:variables

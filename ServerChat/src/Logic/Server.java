@@ -132,6 +132,16 @@ public class Server implements Runnable {
                 break;
             case "UploadRes":
                 UploadRes(portClient, msg);
+                break;
+             case "UploadReqGroup":
+                 UploadReqGroup(portClient, msg);
+                 break;
+               case "UploadResGroup":
+                   UploadResGroup(portClient, msg);
+                   break;
+                   
+             
+              
 
         }
     }
@@ -432,5 +442,40 @@ public class Server implements Runnable {
             JOptionPane.showMessageDialog(ui, "Lỗi upladRes server " + e.toString());
         }
 
+    }
+
+    private void UploadReqGroup(int portClient, Message msg) {
+        try {
+            int groupId = FindGroupName(msg.getRecipient());
+            for (int i = 0; i < lsGroupChat.get(groupId).lsClientName.size(); i++) {
+                int check_online = FindCient(lsGroupChat.get(groupId).lsClientName.get(i));
+                if (check_online != -1 && !lsGroupChat.get(groupId).lsClientName.get(i).equals(msg.getSender())) {
+                    clients[FindCient(lsGroupChat.get(groupId).lsClientName.get(i))].send(new Message("UploadReqGroup", msg.getSender(), msg.getContent(), lsGroupChat.get(groupId).groupName));
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi xử lý dữ liệu");
+        }
+    }
+
+    private void UploadResGroup(int portClient, Message msg) {
+         try {
+            if (!msg.getContent().equals("No")) {
+                if (FindUServerThread(msg.getSender().toString()) != null) {
+                    String Ip = FindUServerThread(msg.getSender()).getClient().getInetAddress().getHostAddress();
+                    // FindUServerThread(msg.getRecipient()).send(new Message("UploadRes",msg.getSender(),msg.getContent(),msg.getRecipient()));
+                    FindUServerThread(msg.getRecipient()).send(new Message("UploadResGroup", msg.getSender(), msg.getContent() + "-" + Ip, msg.getRecipient()));
+
+                } else {
+                }
+            } else {
+                FindUServerThread(msg.getRecipient()).send(new Message("UploadResGroup", msg.getSender(), msg.getContent(), msg.getRecipient()));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(ui, "Lỗi upladRes server " + e.toString());
+        }
+
+        
     }
 }

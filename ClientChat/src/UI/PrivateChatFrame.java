@@ -5,20 +5,38 @@
  */
 package UI;
 
+import Logic.Download;
 import Logic.Message;
 import Logic.SocketClient;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.ImageFilter;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
@@ -35,16 +53,32 @@ public class PrivateChatFrame extends javax.swing.JFrame {
      * Creates new form PrivateChatFrame
      */
     public SocketClient client;
-    public String target ;
+    public String target;
     Thread clientThread;
-    public  String user;
-    public  File file ;
-    
-    public PrivateChatFrame(SocketClient socketClient, String target , String user) {
+    public String user;
+    public File file;
+    int rowTarget = 1;
+    int rowUser = 1;
+    String Loai = "file";
+    private final BoxLayout boxLayout;
+    boolean check = false;
+
+    public PrivateChatFrame(SocketClient socketClient, String target, String user) {
         initComponents();
+//        scrollChat.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+        scrollChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//        scrollChat.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+//            public void adjustmentValueChanged(AdjustmentEvent e) {
+//                if (!check) {
+//                    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+//                }
+//            }
+//        });
+
+        boxLayout = new BoxLayout(panelChat, BoxLayout.Y_AXIS);
+        panelChat.setLayout(boxLayout);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconchat.png")));
         txtMessage.requestFocus();
-        txtMessageInfo.setEnabled(false);
         this.client = socketClient;
         super.setResizable(false);
         this.user = user;
@@ -55,8 +89,10 @@ public class PrivateChatFrame extends javax.swing.JFrame {
             public void windowClosing(WindowEvent e) {
                 setVisible(false);
             }
-        });    
+        });
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,21 +102,22 @@ public class PrivateChatFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtMessageInfo = new javax.swing.JTextPane();
         txtMessage = new javax.swing.JTextField();
         btnHistory = new javax.swing.JButton();
         txttenfile = new javax.swing.JTextField();
         btnLink = new javax.swing.JButton();
         btnUpload = new javax.swing.JButton();
+        panelParentChat = new javax.swing.JPanel();
+        scrollChat = new javax.swing.JScrollPane();
+        txtChat = new javax.swing.JPanel();
+        panelChat = new javax.swing.JPanel();
+        btnimg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(214, 90, 49));
-
-        txtMessageInfo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jScrollPane1.setViewportView(txtMessageInfo);
 
         txtMessage.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         txtMessage.addActionListener(new java.awt.event.ActionListener() {
@@ -126,41 +163,115 @@ public class PrivateChatFrame extends javax.swing.JFrame {
             }
         });
 
+        panelParentChat.setBackground(new java.awt.Color(204, 255, 204));
+
+        scrollChat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scrollChatMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                scrollChatMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                scrollChatMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                scrollChatMouseReleased(evt);
+            }
+        });
+
+        txtChat.setBackground(new java.awt.Color(255, 255, 255));
+
+        panelChat.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelChatLayout = new javax.swing.GroupLayout(panelChat);
+        panelChat.setLayout(panelChatLayout);
+        panelChatLayout.setHorizontalGroup(
+            panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 304, Short.MAX_VALUE)
+        );
+        panelChatLayout.setVerticalGroup(
+            panelChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 191, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout txtChatLayout = new javax.swing.GroupLayout(txtChat);
+        txtChat.setLayout(txtChatLayout);
+        txtChatLayout.setHorizontalGroup(
+            txtChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtChatLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(125, Short.MAX_VALUE))
+        );
+        txtChatLayout.setVerticalGroup(
+            txtChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtChatLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        scrollChat.setViewportView(txtChat);
+
+        javax.swing.GroupLayout panelParentChatLayout = new javax.swing.GroupLayout(panelParentChat);
+        panelParentChat.setLayout(panelParentChatLayout);
+        panelParentChatLayout.setHorizontalGroup(
+            panelParentChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollChat, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        panelParentChatLayout.setVerticalGroup(
+            panelParentChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollChat, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+        );
+
+        btnimg.setIcon(new javax.swing.ImageIcon("D:\\HK6\\LapTrinhJava\\DoAn\\LanChat\\ClientChat\\img.png")); // NOI18N
+        btnimg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimgActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtMessage, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txttenfile, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(txttenfile, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
+                        .addComponent(btnimg, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnHistory))
-                    .addComponent(txtMessage))
+                    .addComponent(panelParentChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addContainerGap()
+                .addComponent(panelParentChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txttenfile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHistory)))
-                    .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(txttenfile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnimg, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLink, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpload, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHistory, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(9, 9, 9)
+                .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -174,32 +285,48 @@ public class PrivateChatFrame extends javax.swing.JFrame {
     private void btnHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistoryMouseClicked
         // TODO add your handling code here:
 
-        client.send(new Message("showHistory", user,target,"Server"));
-        
+        client.send(new Message("showHistory", user, target, "Server"));
+
     }//GEN-LAST:event_btnHistoryMouseClicked
+
+    public JPanel getChattagert() {
+        return txtChat;
+    }
+
+    public JPanel getPanelChat() {
+        return panelChat;
+    }
+
 
     private void txtMessageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyReleased
         // TODO add your handling code here:
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
-        {
-             if(!txtMessage.getText().isEmpty())
-            {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!txtMessage.getText().isEmpty()) {
                 String msg = txtMessage.getText();
-                StyledDocument doc = txtMessageInfo.getStyledDocument();
-                SimpleAttributeSet right = new SimpleAttributeSet();
-                StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-                Style style = txtMessageInfo.addStyle(null,null);
-                StyleConstants.setForeground(style, Color.red);
-                try {
-                    String message = msg+"\n";
-                    int lenght = doc.getLength();
-                    doc.insertString(lenght, message, style);
-                    doc.setParagraphAttributes(lenght+1, 1, right, false);
-                    client.send(new Message("privatechat", user,  msg , target));
-                    txtMessage.setText("");
-                } catch (Exception e) {
-                   
-                }  
+                JLabel userchat = new JLabel();
+                userchat.setText(  "Tôi: " + msg);
+                userchat.setForeground(Color.red);
+                panelChat.add(userchat);
+                txtMessage.setText("");
+                revalidate();
+
+                client.send(new Message("privatechat", user, msg, target));
+                //cái này cái cũ nè
+//                StyledDocument doc = txtMessageInfo.getStyledDocument();
+//                SimpleAttributeSet right = new SimpleAttributeSet();
+//                StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+//                Style style = txtMessageInfo.addStyle(null, null);
+//                StyleConstants.setForeground(style, Color.red);
+//                try {
+//                    String message = msg + "\n";
+//                    int lenght = doc.getLength();
+//                    doc.insertString(lenght, message, style);
+//                    doc.setParagraphAttributes(lenght + 1, 1, right, false);
+//                    client.send(new Message("privatechat", user, msg, target));
+//                    txtMessage.setText("");
+//                } catch (Exception e) {
+//
+//                }
             }
 //            if(!txtMessage.getText().isEmpty())
 //            {
@@ -227,6 +354,10 @@ public class PrivateChatFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtMessageKeyReleased
 
+    public JScrollPane getScrollChat() {
+        return scrollChat;
+    }
+
     private void txttenfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttenfileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttenfileActionPerformed
@@ -237,7 +368,14 @@ public class PrivateChatFrame extends javax.swing.JFrame {
 
     private void btnLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLinkActionPerformed
         // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
+        Loai = "file";
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx","txt"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+//        FileFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "tif");
+//        fileChooser.addChoosableFileFilter(filter);
         fileChooser.showDialog(this, "Select file");
         file = fileChooser.getSelectedFile();
         txttenfile.setText(file.getName());
@@ -245,26 +383,64 @@ public class PrivateChatFrame extends javax.swing.JFrame {
 
     private void btnUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadActionPerformed
         long size = file.length();
-        if(size<120*1024*1024)
-        {
-            client.send(new Message("UploadReq", user, file.getName(), target));
-        }
-        else
-        {
-             StyledDocument doc = this.getTxtMessageInfo().getStyledDocument();
-            SimpleAttributeSet left = new SimpleAttributeSet();
-            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
-            Style style = this.getTxtMessageInfo().addStyle(null, null);
-            StyleConstants.setForeground(style, Color.MAGENTA);
-            String message = "File quá lớn!" + "\n";
-            try{
-                int length = doc.getLength();
-                doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
+        if (size < 120 * 1024 * 1024) {
+            if (Loai.equals("img")) {
+                JLabel lbuser = new JLabel();
+                lbuser.setSize(120, 120);
+                JLabel lb = new JLabel("Tôi: ");
+                panelChat.add(lb);
+                ImageIcon icon = new ImageIcon(new ImageIcon(file.getPath()).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
+                lbuser.setIcon(icon);
+                panelChat.add(lbuser);
+                lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        Desktop desktop = Desktop.getDesktop();
+
+                        if (file.exists()) {
+                            try {
+                                desktop.open(file);
+                            } catch (IOException ex) {
+                                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                });
+            } else {
+
+                JLabel lbuser = new JLabel(user + ": " + file.getName());
+                lbuser.setForeground(Color.PINK);
+                panelChat.add(lbuser);
+                lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        Desktop desktop = Desktop.getDesktop();
+                        if (file.exists()) {
+                            try {
+                                desktop.open(file);
+                            } catch (IOException ex) {
+                                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                });
             }
-            catch(Exception e) { 
-                System.out.println(e);
-            }
+             revalidate();
+            client.send(new Message("UploadReq", user, file.getName() + "-" + Loai, target));
+            txttenfile.setText("");
+        } else {
+//            StyledDocument doc = this.getTxtMessageInfo().getStyledDocument();
+//            SimpleAttributeSet left = new SimpleAttributeSet();
+//            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
+//            Style style = this.getTxtMessageInfo().addStyle(null, null);
+//            StyleConstants.setForeground(style, Color.MAGENTA);
+//            String message = "File quá lớn!" + "\n";
+//            try {
+//                int length = doc.getLength();
+//                doc.insertString(doc.getLength(), message, style);
+//                doc.setParagraphAttributes(length + 1, 1, left, false);
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
+            JOptionPane.showMessageDialog(this, "File quá lớn!!");
         }
     }//GEN-LAST:event_btnUploadActionPerformed
 
@@ -272,35 +448,73 @@ public class PrivateChatFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHistoryActionPerformed
 
-    /**to
+    private void btnimgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimgActionPerformed
+        // TODO add your handling code here:
+        Loai = "img";
+        JFileChooser fileChooser = new JFileChooser();
+       fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+       fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.showDialog(this, "Select file");
+        file = fileChooser.getSelectedFile();
+        txttenfile.setText(file.getName());
+
+    }//GEN-LAST:event_btnimgActionPerformed
+
+    private void scrollChatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMousePressed
+        // TODO add your handling code here:
+        check = true;
+
+    }//GEN-LAST:event_scrollChatMousePressed
+
+    private void scrollChatMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMouseReleased
+        // TODO add your handling code here:
+        check = false;
+    }//GEN-LAST:event_scrollChatMouseReleased
+
+    private void scrollChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMouseClicked
+        // TODO add your handling code here:
+         check = true;
+    }//GEN-LAST:event_scrollChatMouseClicked
+
+    private void scrollChatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMouseExited
+        // TODO add your handling code here:
+         check = false;
+    }//GEN-LAST:event_scrollChatMouseExited
+
+    /**
+     * to
+     *
      * @param args the command line arguments
      */
-public JTextField getTxtMessage()
-{
-    return txtMessage;
-}
-public  JTextPane getTxtMessageInfo()
-{
-    return txtMessageInfo;
-}
-public  void  setTxtMessage( JTextField a)
-{
-    txtMessage = a;
-}
+    public JTextField getTxtMessage() {
+        return txtMessage;
+    }
 
-public JTextField gettxtFileName ()
-{
-    return this.txttenfile;
-}
+    public void setTxtMessage(JTextField a) {
+        txtMessage = a;
+    }
+
+    public JPanel getTxtChat() {
+        return txtChat;
+    }
+
+    public JTextField gettxtFileName() {
+        return this.txttenfile;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnLink;
     private javax.swing.JButton btnUpload;
+    private javax.swing.JButton btnimg;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JPanel panelChat;
+    private javax.swing.JPanel panelParentChat;
+    private javax.swing.JScrollPane scrollChat;
+    private javax.swing.JPanel txtChat;
     private javax.swing.JTextField txtMessage;
-    private javax.swing.JTextPane txtMessageInfo;
     private javax.swing.JTextField txttenfile;
     // End of variables declaration//GEN-END:variables
 }

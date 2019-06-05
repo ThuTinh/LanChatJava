@@ -81,6 +81,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         lbName.setFont(new java.awt.Font("Tekton Pro Ext", 1, 24)); // NOI18N
         lbName.setText("Name");
+        lbName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbNameMouseClicked(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(34, 40, 49));
 
@@ -168,7 +173,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+            .addComponent(jTabbedPane4)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,6 +237,10 @@ public class MainFrame extends javax.swing.JFrame {
         CreateGroupFrame createGroupFrame = new CreateGroupFrame(client, username);
         createGroupFrame.setVisible(true);
     }//GEN-LAST:event_btnCreateGroupActionPerformed
+
+    private void lbNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNameMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbNameMouseClicked
 
     /**
      * @param args the command line arguments

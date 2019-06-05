@@ -16,7 +16,6 @@ public class Message implements Serializable{
     private String type ;
     private String sender ;
     private String content ;
-    private  byte [] avatar;
     private String recipient;
 
     public String getRecipient() {
@@ -52,33 +51,17 @@ public class Message implements Serializable{
         this.content = content;
     }
 
-    public byte[] getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(byte[] avatar) {
-        this.avatar = avatar;
-    }
+ 
     public  Message(String type , String sender ,String content , String recipient  )
     {
         this.content = content;
         this.recipient = recipient;
         this.type = type;
         this.sender = sender;
-        this.avatar = null;
-    }
-    
-    public  Message(String type, String sender , byte [] avatar,String recipient )
-    {
-        this.type = type;
-        this.sender = sender;
-        this.avatar = avatar;
-        this.recipient = recipient;
-        this.content = null;
     }
     
     public  String toString()
     {
-       return "{type='"+type+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"', avatar='"+avatar+"'}";
+       return "{type='"+type+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
     }
 }

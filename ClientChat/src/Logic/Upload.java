@@ -28,12 +28,12 @@ public class Upload implements Runnable{
     public FileInputStream In;
     public OutputStream Out;
     public File file;
-    public PrivateChatFrame chatFrame;
+   // public PrivateChatFrame chatFrame;
     
-    public Upload(String addr, int port, File filepath, PrivateChatFrame chatFrame){
+    public Upload(String addr, int port, File filepath){
         try {
             file = filepath;
-            this.chatFrame = chatFrame;
+            //this.chatFrame = chatFrame;
             socket = new Socket(addr, port);
             Out = socket.getOutputStream();
             In = new FileInputStream(filepath);
@@ -53,21 +53,21 @@ public class Upload implements Runnable{
                 Out.write(buffer, 0, count);
             }
             Out.flush();
-            StyledDocument doc = chatFrame.getTxtMessageInfo().getStyledDocument();
-            SimpleAttributeSet left = new SimpleAttributeSet();
-            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
-            Style style = chatFrame.getTxtMessageInfo().addStyle(null, null);
-            StyleConstants.setForeground(style, Color.MAGENTA);
-            String message = file.getName() + " upload completed!" + "\n";
-            chatFrame.gettxtFileName().setText("");
-            try{
-                int length = doc.getLength();
-                doc.insertString(doc.getLength(), message, style);
-                doc.setParagraphAttributes(length+1, 1, left, false);
-            }
-            catch(Exception e) { 
-               JOptionPane.showMessageDialog(chatFrame, "upload fail" +e);
-            }
+//            StyledDocument doc = chatFrame.getTxtMessageInfo().getStyledDocument();
+//            SimpleAttributeSet left = new SimpleAttributeSet();
+//            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
+//            Style style = chatFrame.getTxtMessageInfo().addStyle(null, null);
+//            StyleConstants.setForeground(style, Color.RED);
+//            String message = file.getName() + " upload completed!" + "\n";
+//            chatFrame.gettxtFileName().setText("");
+//            try{
+//                int length = doc.getLength();
+//                doc.insertString(doc.getLength(), message, style);
+//                doc.setParagraphAttributes(length+1, 1, left, false);
+//            }
+//            catch(Exception e) { 
+//               JOptionPane.showMessageDialog(chatFrame, "upload fail" +e);
+//            }
             
             if(In != null)
                 In.close(); 

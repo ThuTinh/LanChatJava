@@ -52,6 +52,7 @@ public class HistoryFrame extends javax.swing.JFrame {
         this.user = user;
         this.groupName = groupname;
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("history.png")));
         this.setVisible(true);
         this.txtHistory.setEditable(false);
         this.setTitle("History");

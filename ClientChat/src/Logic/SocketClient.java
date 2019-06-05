@@ -11,6 +11,8 @@ import UI.LoignFrame;
 import UI.MainFrame;
 import UI.PrivateChatFrame;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.List;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
@@ -161,7 +164,6 @@ public class SocketClient implements Runnable {
                                 }
                             }
                         }
-
                     }
                     break;
                     case "signin": {
@@ -210,7 +212,6 @@ public class SocketClient implements Runnable {
                                 }
                             }
                         }
-
                     }
                     break;
                     case "sendnewuser": {
@@ -258,19 +259,28 @@ public class SocketClient implements Runnable {
 
                         if (privateChatFrames[FindChatFrame(msg.sender)].target.equals(msg.sender)) {
                             // privateChatFrames[FindChatFrame(msg.sender)].getTxtMessage().setText(msg.content);
-                            StyledDocument doc = privateChatFrames[FindChatFrame(msg.sender)].getTxtMessageInfo().getStyledDocument();
-                            SimpleAttributeSet left = new SimpleAttributeSet();
-                            StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-                            Style style = privateChatFrames[FindChatFrame(msg.sender)].getTxtMessageInfo().addStyle(null, null);
-                            StyleConstants.setForeground(style, Color.black);
-                            // String message = msg.content;
-                            //String arr [] = message.split("/");
-                            int length = doc.getLength();
-                            // privateChatFrames[FindChatFrame(msg.sender)].getTxtMessage().setText("");
-                            //doc.insertString(length, arr[1]+"\n", style);
-                            doc.insertString(length, msg.content + "\n", style);
-                            doc.setParagraphAttributes(length + 1, 1, left, false);
 
+                            //cái mới
+                            JLabel labeltarget = new JLabel(msg.sender + ": " + msg.content);
+                            labeltarget.setForeground(Color.GREEN);
+                            privateChatFrames[FindChatFrame(msg.sender)].getPanelChat().add(labeltarget);
+                            privateChatFrames[FindChatFrame(msg.sender)].revalidate();
+
+//                            labeluser.setBackground(Color.ORANGE);
+//                            labeltarget.setBackground(Color.MAGENTA);
+                            // cái cũ
+//                            StyledDocument doc = privateChatFrames[FindChatFrame(msg.sender)].getTxtMessageInfo().getStyledDocument();
+//                            SimpleAttributeSet left = new SimpleAttributeSet();
+//                            StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+//                            Style style = privateChatFrames[FindChatFrame(msg.sender)].getTxtMessageInfo().addStyle(null, null);
+//                            StyleConstants.setForeground(style, Color.black);
+//                            // String message = msg.content;
+//                            //String arr [] = message.split("/");
+//                            int length = doc.getLength();
+//                            // privateChatFrames[FindChatFrame(msg.sender)].getTxtMessage().setText("");
+//                            //doc.insertString(length, arr[1]+"\n", style);
+//                            doc.insertString(length, msg.content + "\n", style);
+//                            doc.setParagraphAttributes(length + 1, 1, left, false);
                         }
                     }
                     break;
@@ -280,7 +290,7 @@ public class SocketClient implements Runnable {
                                 HistoryFrame historyFrame;
                                 historyFrame = new HistoryFrame(msg.sender, msg.recipient);
                                 lsHistoryFrame.add(historyFrame);
-                            }                         
+                            }
                             lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).setVisible(true);
                             lsHistoryFrame.get(FindHistoryFrame(msg.sender, msg.recipient)).AddMessage(msg.sender, msg.recipient, msg.content);
                         } else {
@@ -290,7 +300,7 @@ public class SocketClient implements Runnable {
                                 lsHistoryFrame.add(historyFrame);
                             }
                             lsHistoryFrame.get(FindHistoryFrame(mainFrame.username, msg.sender)).setVisible(true);
-                            lsHistoryFrame.get(FindHistoryFrame(mainFrame.username, msg.sender)).AddMessage( msg.sender,msg.recipient, msg.content);
+                            lsHistoryFrame.get(FindHistoryFrame(mainFrame.username, msg.sender)).AddMessage(msg.sender, msg.recipient, msg.content);
                         }
                     }
                     break;
@@ -392,7 +402,13 @@ public class SocketClient implements Runnable {
                             this.send(new Message("GroupChatGetUserList", mainFrame.username, msg.recipient, "Server"));
                             groupChatFrames[FindGroupFame(msg.recipient)].setVisible(true);
                         }
+                        //cái mới
+                        JLabel lbChat = new JLabel(msg.content);
+                        lbChat.setForeground(Color.GREEN);
+                        groupChatFrames[FindGroupFame(msg.recipient)].getTxtChat().add(lbChat);
+                        groupChatFrames[FindGroupFame(msg.recipient)].getTxtChat().revalidate();
 
+                        //cái cũ
                         int groupID = FindGroupFame(msg.recipient);
                         StyledDocument doc = groupChatFrames[groupID].getTxtMessageInfo().getStyledDocument();
                         SimpleAttributeSet right = new SimpleAttributeSet();
@@ -405,7 +421,7 @@ public class SocketClient implements Runnable {
                             doc.insertString(doc.getLength(), message, style);
                             doc.setParagraphAttributes(length + 1, 1, right, false);
                         } catch (Exception e) {
-                           // System.out.println(e);
+                            // System.out.println(e);
                         }
                     }
                     break;
@@ -437,7 +453,7 @@ public class SocketClient implements Runnable {
                                 doc.insertString(doc.getLength(), message, style);
                                 doc.setParagraphAttributes(length + 1, 1, right, false);
                             } catch (Exception e) {
-                               // System.out.println(e);
+                                // System.out.println(e);
                             }
                         }
 
@@ -478,31 +494,121 @@ public class SocketClient implements Runnable {
                                 }
                             }
                             int chatFrameNumber = FindChatFrame(msg.sender);
-                            if (JOptionPane.showConfirmDialog(privateChatFrames[chatFrameNumber], ("Accept" + msg.content + "from " + msg.sender + "?"), "Thông báo",  JOptionPane.YES_NO_OPTION) == 0) {
-                                JFileChooser jf = new JFileChooser();
-                                jf.setSelectedFile(new File(msg.content));
-                                int returnVal = jf.showSaveDialog(privateChatFrames[chatFrameNumber]);
-                                String saveTo = jf.getSelectedFile().getPath();
-
-                                if (saveTo != null && returnVal == JFileChooser.APPROVE_OPTION) {
-                                    Download dwn = new Download(saveTo, msg.content, privateChatFrames[chatFrameNumber]);
-                                    Thread t = new Thread(dwn);
-                                    t.start();
-
-                                    this.send(new Message("UploadRes", mainFrame.username, "" + dwn.port, msg.sender));
-
-                                } else {
-                                    this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
-                                }
-
-                            } else {
-                                this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
+                            String[] arr = msg.content.split("-");
+//                            if (JOptionPane.showConfirmDialog(privateChatFrames[chatFrameNumber], ("Accept" + msg.content + "from " + msg.sender + "?"), "Thông báo", JOptionPane.YES_NO_OPTION) == 0) {
+//                                JFileChooser jf = new JFileChooser();
+//                                jf.setSelectedFile(new File(msg.content));
+                            // int returnVal = jf.showSaveDialog(privateChatFrames[chatFrameNumber]);
+                            // String saveTo = jf.getSelectedFile().getPath();
+                            File dir = new File("D:\\DocumentChat");
+                            if (!dir.exists()) {
+                                dir.mkdirs();
                             }
+                            File file = new File("D:\\DocumentChat\\" + arr[0]);
+                            file.createNewFile();
+                            String saveTo = file.getPath();
+                            // if (saveTo != null && returnVal == JFileChooser.APPROVE_OPTION) {
+                            Download dwn = new Download(msg.sender, saveTo, arr[0], arr[1], privateChatFrames[chatFrameNumber]);
+                            Thread t = new Thread(dwn);
+                            t.start();
+
+                            this.send(new Message("UploadRes", mainFrame.username, "" + dwn.port, msg.sender));
+
+//                                } else {
+//                                    this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
+//                                }
+//                            } else {
+//                                this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
+//                            }
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Lỗi upladReq  client " + e.toString());
 
                         }
 
+                    }
+                    break;
+                    case "UploadReqGroup":{
+                        
+                        
+                          if (this.groupChatFrames[0] == null || this.FindGroupFame(msg.recipient) == -1) {
+                            groupChatFrames[countGroupFrame] = new GroupChatFrame(this, mainFrame.username, msg.recipient, mainFrame);
+                            this.send(new Message("GroupChatGetUserList", mainFrame.username, msg.recipient, "Server"));
+                           
+                            groupChatFrames[countGroupFrame].setVisible(true);
+                            countGroupFrame++;
+                        } else {
+                            this.send(new Message("GroupChatGetUserList", mainFrame.username, msg.recipient, "Server"));
+                            groupChatFrames[FindGroupFame(msg.recipient)].setVisible(true);
+                        }
+                            
+                             int chatGroupFrameNumber = this.FindGroupFame(msg.recipient);
+                            String[] arr = msg.content.split("-");
+//                            if (JOptionPane.showConfirmDialog(privateChatFrames[chatFrameNumber], ("Accept" + msg.content + "from " + msg.sender + "?"), "Thông báo", JOptionPane.YES_NO_OPTION) == 0) {
+//                                JFileChooser jf = new JFileChooser();
+//                                jf.setSelectedFile(new File(msg.content));
+                            // int returnVal = jf.showSaveDialog(privateChatFrames[chatFrameNumber]);
+                            // String saveTo = jf.getSelectedFile().getPath();
+                            File dir = new File("D:\\DocumentChat");
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+                            File file = new File("D:\\DocumentChat\\" + arr[0]);
+                            file.createNewFile();
+                            String saveTo = file.getPath();
+                            // if (saveTo != null && returnVal == JFileChooser.APPROVE_OPTION) {
+                            Download dwn = new Download(msg.sender, saveTo, arr[0], arr[1], groupChatFrames[chatGroupFrameNumber]);
+                            Thread t = new Thread(dwn);
+                            t.start();
+
+                            this.send(new Message("UploadResGroup", mainFrame.username, "" + dwn.port, msg.sender + "-" +msg.recipient));
+
+//                                } else {
+//                                    this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
+//                                }
+//                            } else {
+//                                this.send(new Message("UploadRes", mainFrame.username, "No", msg.sender));
+                    }
+                    
+                    break;
+                        
+                    case "UploadResGroup":
+                    {
+                          String[] arr = msg.content.split("-");
+                          String[] arrg = msg.recipient.split("-");
+                        if (FindGroupFame(arrg[1]) != -1) {
+                            int index = FindGroupFame(arrg[1]);
+                            try {
+                                if (!arr[0].equals("No")) {
+                                    int port = Integer.parseInt(arr[0]);
+                                    if (arr[1] != null) {
+                                        String addr = arr[1];
+                                        Upload upload = new Upload(addr, port, groupChatFrames[index].file);
+                                        Thread t = new Thread(upload);
+                                        t.start();
+                                    }
+                                } else {
+//                                    StyledDocument doc = privateChatFrames[index].getTxtMessageInfo().getStyledDocument();
+//                                    SimpleAttributeSet left = new SimpleAttributeSet();
+//                                    StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+//                                    Style style = privateChatFrames[index].getTxtMessageInfo().addStyle(null, null);
+//                                    StyleConstants.setForeground(style, Color.black);
+//                                    String message = msg.sender + " rejected file request!\n";
+//                                    try {
+//                                        int length = doc.getLength();
+//                                        doc.insertString(doc.getLength(), message, style);
+//                                        doc.setParagraphAttributes(length + 1, 1, left, false);
+//                                    } catch (Exception e) {
+//                                        JOptionPane.showMessageDialog(null, "Lỗi upladRes  client " + e.toString());
+//                                    }
+                                }
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(mainFrame, "Lỗi gởi file" + e.toString());
+                            }
+
+                            //  test = 0;
+                        } else {
+
+                        }
                     }
                     break;
                     case "UploadRes": {
@@ -514,24 +620,24 @@ public class SocketClient implements Runnable {
                                     int port = Integer.parseInt(arr[0]);
                                     if (arr[1] != null) {
                                         String addr = arr[1];
-                                        Upload upload = new Upload(addr, port, privateChatFrames[index].file, privateChatFrames[index]);
+                                        Upload upload = new Upload(addr, port, privateChatFrames[index].file);
                                         Thread t = new Thread(upload);
                                         t.start();
                                     }
                                 } else {
-                                    StyledDocument doc = privateChatFrames[index].getTxtMessageInfo().getStyledDocument();
-                                    SimpleAttributeSet left = new SimpleAttributeSet();
-                                    StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-                                    Style style = privateChatFrames[index].getTxtMessageInfo().addStyle(null, null);
-                                    StyleConstants.setForeground(style, Color.black);
-                                    String message = msg.sender + " rejected file request!\n";
-                                    try {
-                                        int length = doc.getLength();
-                                        doc.insertString(doc.getLength(), message, style);
-                                        doc.setParagraphAttributes(length + 1, 1, left, false);
-                                    } catch (Exception e) {
-                                        JOptionPane.showMessageDialog(null, "Lỗi upladRes  client " + e.toString());
-                                    }
+//                                    StyledDocument doc = privateChatFrames[index].getTxtMessageInfo().getStyledDocument();
+//                                    SimpleAttributeSet left = new SimpleAttributeSet();
+//                                    StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+//                                    Style style = privateChatFrames[index].getTxtMessageInfo().addStyle(null, null);
+//                                    StyleConstants.setForeground(style, Color.black);
+//                                    String message = msg.sender + " rejected file request!\n";
+//                                    try {
+//                                        int length = doc.getLength();
+//                                        doc.insertString(doc.getLength(), message, style);
+//                                        doc.setParagraphAttributes(length + 1, 1, left, false);
+//                                    } catch (Exception e) {
+//                                        JOptionPane.showMessageDialog(null, "Lỗi upladRes  client " + e.toString());
+//                                    }
                                 }
                             } catch (Exception e) {
                                 JOptionPane.showMessageDialog(mainFrame, "Lỗi gởi file" + e.toString());
