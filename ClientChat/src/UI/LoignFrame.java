@@ -59,7 +59,7 @@ public class LoignFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(79, 157, 166));
+        jPanel1.setBackground(new java.awt.Color(214, 90, 49));
 
         jLabel1.setFont(new java.awt.Font("Stencil Std", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -83,10 +83,11 @@ public class LoignFrame extends javax.swing.JFrame {
             }
         });
 
-        btnConnect.setBackground(new java.awt.Color(250, 207, 90));
+        btnConnect.setBackground(new java.awt.Color(34, 40, 49));
         btnConnect.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
+        btnConnect.setForeground(new java.awt.Color(255, 255, 255));
         btnConnect.setText("CONNECT");
-        btnConnect.setBorder(null);
+        btnConnect.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnConnect.setBorderPainted(false);
         btnConnect.setContentAreaFilled(false);
         btnConnect.setOpaque(true);
@@ -127,22 +128,22 @@ public class LoignFrame extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Password");
 
-        btnSigin.setBackground(new java.awt.Color(250, 207, 90));
+        btnSigin.setBackground(new java.awt.Color(34, 40, 49));
         btnSigin.setFont(new java.awt.Font("Palatino Linotype", 1, 11)); // NOI18N
-        btnSigin.setForeground(new java.awt.Color(35, 49, 66));
+        btnSigin.setForeground(new java.awt.Color(255, 255, 255));
         btnSigin.setText("SIGN IN");
-        btnSigin.setBorder(null);
+        btnSigin.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnSigin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSiginActionPerformed(evt);
             }
         });
 
-        btnSignUp.setBackground(new java.awt.Color(250, 207, 90));
+        btnSignUp.setBackground(new java.awt.Color(34, 40, 49));
         btnSignUp.setFont(new java.awt.Font("Palatino Linotype", 1, 11)); // NOI18N
-        btnSignUp.setForeground(new java.awt.Color(35, 49, 66));
+        btnSignUp.setForeground(new java.awt.Color(255, 255, 255));
         btnSignUp.setText("SIGN UP");
-        btnSignUp.setBorder(null);
+        btnSignUp.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignUpActionPerformed(evt);

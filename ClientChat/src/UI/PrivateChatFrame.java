@@ -241,8 +241,8 @@ public class PrivateChatFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtMessage, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txttenfile, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addComponent(txttenfile, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnimg, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,7 +304,7 @@ public class PrivateChatFrame extends javax.swing.JFrame {
             if (!txtMessage.getText().isEmpty()) {
                 String msg = txtMessage.getText();
                 JLabel userchat = new JLabel();
-                userchat.setText(  "Tôi: " + msg);
+                userchat.setText("Tôi: " + msg);
                 userchat.setForeground(Color.red);
                 panelChat.add(userchat);
                 txtMessage.setText("");
@@ -369,10 +369,10 @@ public class PrivateChatFrame extends javax.swing.JFrame {
     private void btnLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLinkActionPerformed
         // TODO add your handling code here:
         Loai = "file";
-         JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx","txt"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(false);
 //        FileFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "tif");
 //        fileChooser.addChoosableFileFilter(filter);
@@ -388,6 +388,7 @@ public class PrivateChatFrame extends javax.swing.JFrame {
                 JLabel lbuser = new JLabel();
                 lbuser.setSize(120, 120);
                 JLabel lb = new JLabel("Tôi: ");
+                lb.setForeground(Color.red);
                 panelChat.add(lb);
                 ImageIcon icon = new ImageIcon(new ImageIcon(file.getPath()).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
                 lbuser.setIcon(icon);
@@ -407,8 +408,8 @@ public class PrivateChatFrame extends javax.swing.JFrame {
                 });
             } else {
 
-                JLabel lbuser = new JLabel(user + ": " + file.getName());
-                lbuser.setForeground(Color.PINK);
+                JLabel lbuser = new JLabel("<html><u><bold><b1>Tôi:" + file.getName() + "</u></bold></b1></html>");
+                lbuser.setForeground(Color.RED);
                 panelChat.add(lbuser);
                 lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -423,7 +424,7 @@ public class PrivateChatFrame extends javax.swing.JFrame {
                     }
                 });
             }
-             revalidate();
+            revalidate();
             client.send(new Message("UploadReq", user, file.getName() + "-" + Loai, target));
             txttenfile.setText("");
         } else {
@@ -452,8 +453,8 @@ public class PrivateChatFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         Loai = "img";
         JFileChooser fileChooser = new JFileChooser();
-       fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-       fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.showDialog(this, "Select file");
         file = fileChooser.getSelectedFile();
@@ -474,12 +475,12 @@ public class PrivateChatFrame extends javax.swing.JFrame {
 
     private void scrollChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMouseClicked
         // TODO add your handling code here:
-         check = true;
+        check = true;
     }//GEN-LAST:event_scrollChatMouseClicked
 
     private void scrollChatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollChatMouseExited
         // TODO add your handling code here:
-         check = false;
+        check = false;
     }//GEN-LAST:event_scrollChatMouseExited
 
     /**

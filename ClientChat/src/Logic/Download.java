@@ -63,7 +63,7 @@ public class Download implements Runnable {
             this.sender = sender;
             filePrivateChat = true;
             groupChatFrame = null;
-            
+
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(chatFrame, "down load khoitao" + ex);
         }
@@ -99,46 +99,23 @@ public class Download implements Runnable {
             }
 
             Out.flush();
-            if (loai.equals("file")) {
-                JLabel lbtarget = new JLabel();
-                lbtarget.setText(sender + ": " + tenFile);
-                lbtarget.setForeground(Color.pink);
-                if (filePrivateChat) {
-                    chatFrame.getPanelChat().add(lbtarget);
-                    chatFrame.revalidate();
-                } else {
-                    groupChatFrame.getTxtChat().add(lbtarget);
-                    groupChatFrame.revalidate();
-                }
 
-                lbtarget.addMouseListener(new java.awt.event.MouseAdapter() {
-                    public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        Desktop desktop = Desktop.getDesktop();
-                        File openfile = new File(saveTo);
-                        if (openfile.exists()) {
-                            try {
-                                desktop.open(openfile);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                });
-
-            } else {
                 if (loai.equals("img")) {
                     JLabel lbtarget = new JLabel();
-                    ImageIcon icon = new ImageIcon(new ImageIcon(saveTo).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-                    lbtarget.setSize(100, 100);
+                    ImageIcon icon = new ImageIcon(new ImageIcon(saveTo).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
+                    lbtarget.setSize(120, 120);
                     lbtarget.setIcon(icon);
-                    JLabel lb = new JLabel(sender + " đã gởi bạn 1 ảnh ");
+                  
+
                     if (filePrivateChat) {
+                          JLabel lb = new JLabel(sender + " đã gởi bạn 1 ảnh ");
+                    lb.setForeground(Color.GREEN);
                         chatFrame.getPanelChat().add(lb);
                         chatFrame.getPanelChat().add(lbtarget);
                         chatFrame.revalidate();
-                    }
-                    else
-                    {
+                    } else {
+                          JLabel lb = new JLabel(sender + " đã gởi đến nhóm 1 ảnh ");
+                    lb.setForeground(Color.GREEN);
                         groupChatFrame.getTxtChat().add(lb);
                         groupChatFrame.getTxtChat().add(lbtarget);
                         groupChatFrame.revalidate();
@@ -158,8 +135,36 @@ public class Download implements Runnable {
                         }
                     });
 
+                } else {
+                    JLabel lbtarget = new JLabel();
+//                    lbtarget.setText(sender + ": " + tenFile);
+                    lbtarget.setText("<html><u><bold><b1>"+ sender+": " +  tenFile + "</u></bold></b1></html>");
+                    lbtarget.setForeground(Color.GREEN);
+                    if (filePrivateChat) {
+                        chatFrame.getPanelChat().add(lbtarget);
+                        chatFrame.revalidate();
+                    } else {
+                        groupChatFrame.getTxtChat().add(lbtarget);
+                        groupChatFrame.revalidate();
+                    }
+
+                    lbtarget.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            Desktop desktop = Desktop.getDesktop();
+                            File openfile = new File(saveTo);
+                            if (openfile.exists()) {
+                                try {
+                                    desktop.open(openfile);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    });
                 }
-            }
+            } catch (IOException ex) {
+            Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //            StyledDocument doc = chatFrame.getTxtMessageInfo().getStyledDocument();
 //            SimpleAttributeSet left = new SimpleAttributeSet();
 //            StyleConstants.setAlignment(left, StyleConstants.ALIGN_CENTER);
@@ -184,16 +189,28 @@ public class Download implements Runnable {
 //                JOptionPane.showMessageDialog(chatFrame, "Không thể mở file");
 //            }
             if (Out != null) {
+            try {
                 Out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
             if (In != null) {
+            try {
                 In.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
             if (socket != null) {
+            try {
                 socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Download.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(chatFrame, "Dowload " + ex.toString());
-        }
+            }
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(chatFrame, "Dowload " + ex.toString());
+//        }
     }
 }

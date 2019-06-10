@@ -50,20 +50,19 @@ public class GroupChatFrame extends javax.swing.JFrame {
     public String choosingItem = "";
     public String lastUser = "";
     public DefaultListModel onlineModel, memberModel;
-    public  BoxLayout boxLayout;
+    public BoxLayout boxLayout;
     String loai = "file";
-     public File file;
+    public File file;
 
     /**
      * Creates new form GroupChatFrame
      */
     public GroupChatFrame(SocketClient socketClient, String user, String name, MainFrame mainFrame) {
         initComponents();
-         boxLayout = new BoxLayout(txtChat, BoxLayout.Y_AXIS);
+        boxLayout = new BoxLayout(txtChat, BoxLayout.Y_AXIS);
         txtChat.setLayout(boxLayout);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("iconchat.png")));
         txtMessage.requestFocus();
-        txtMessageInfo.setEditable(false);
         this.socket = socketClient;
         this.userName = user;
         this.nameGroup = name;
@@ -99,10 +98,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
         return txtMessage;
     }
 
-    public JTextPane getTxtMessageInfo() {
-        return txtMessageInfo;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,8 +108,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtMessageInfo = new javax.swing.JTextPane();
         txtMessage = new javax.swing.JTextField();
         btnhistory = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -136,9 +129,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(214, 90, 49));
-
-        txtMessageInfo.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jScrollPane1.setViewportView(txtMessageInfo);
 
         txtMessage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +189,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
 
         scrollChat.setBackground(new java.awt.Color(255, 51, 51));
 
-        txtChat.setBackground(new java.awt.Color(102, 102, 255));
+        txtChat.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout txtChatLayout = new javax.swing.GroupLayout(txtChat);
         txtChat.setLayout(txtChatLayout);
@@ -209,7 +199,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
         );
         txtChatLayout.setVerticalGroup(
             txtChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 189, Short.MAX_VALUE)
+            .addGap(0, 225, Short.MAX_VALUE)
         );
 
         scrollChat.setViewportView(txtChat);
@@ -224,7 +214,9 @@ public class GroupChatFrame extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollChat, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(scrollChat, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         btnimage.setIcon(new javax.swing.ImageIcon("D:\\HK6\\LapTrinhJava\\DoAn\\LanChat\\ClientChat\\img.png")); // NOI18N
@@ -255,41 +247,37 @@ public class GroupChatFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
-                        .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(nameFile)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnimage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnhistory))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(nameFile)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnimage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnhistory))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addGap(10, 10, 10))
-                            .addComponent(btnQuit, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(btnQuit, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -307,23 +295,21 @@ public class GroupChatFrame extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnQuit)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnimage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnhistory)
-                                .addComponent(btnQuit))
+                            .addComponent(btnhistory)
                             .addComponent(btnLink, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameFile))
-                        .addGap(13, 13, 13)))
-                .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(nameFile, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -334,7 +320,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, Short.MAX_VALUE)
         );
 
         pack();
@@ -373,27 +359,12 @@ public class GroupChatFrame extends javax.swing.JFrame {
                 String msg = txtMessage.getText();
                 //code mới
                 JLabel lbChat = new JLabel("Tôi: " + msg);
-                lbChat.setForeground(Color.ORANGE);
+                lbChat.setForeground(Color.red);
                 txtChat.add(lbChat);
                 revalidate();
                 socket.send(new Message("GroupChat", userName, msg, nameGroup));
                 txtMessage.setText("");
 
-                //code cũ
-                StyledDocument doc = txtMessageInfo.getStyledDocument();
-                SimpleAttributeSet right = new SimpleAttributeSet();
-                StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-                Style style = txtMessageInfo.addStyle(null, null);
-                StyleConstants.setForeground(style, Color.blue);
-                try {
-                    String message = msg + "\n";
-                    int lenght = doc.getLength();
-                    doc.insertString(lenght, message, style);
-                    doc.setParagraphAttributes(lenght + 1, 1, right, false);
-
-                } catch (Exception e) {
-
-                }
             }
         }
     }//GEN-LAST:event_txtMessageKeyPressed
@@ -448,7 +419,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx","txt"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("MS Office Documents", "docx", "xlsx", "pptx", "txt"));
         fileChooser.setAcceptAllFileFilterUsed(false);
         //        FileFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "tif");
         //        fileChooser.addChoosableFileFilter(filter);
@@ -464,6 +435,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
                 JLabel lbuser = new JLabel();
                 lbuser.setSize(120, 120);
                 JLabel lb = new JLabel("Tôi: ");
+                lb.setForeground(Color.red);
                 txtChat.add(lb);
                 ImageIcon icon = new ImageIcon(new ImageIcon(file.getPath()).getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
                 lbuser.setIcon(icon);
@@ -483,8 +455,9 @@ public class GroupChatFrame extends javax.swing.JFrame {
                 });
             } else {
 
-                JLabel lbuser = new JLabel( "Tôi: " + file.getName());
-                lbuser.setForeground(Color.PINK);
+//                JLabel lbuser = new JLabel("Tôi: " + file.getName());
+                JLabel lbuser = new JLabel("<html><u><bold><b1>Tôi:" + file.getName() + "</u></bold></b1></html>");
+                lbuser.setForeground(Color.red);
                 txtChat.add(lbuser);
                 lbuser.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -500,7 +473,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
                 });
             }
             revalidate();
-             socket.send(new Message("UploadReqGroup", userName, file.getName() + "-" + loai, nameGroup));           
+            socket.send(new Message("UploadReqGroup", userName, file.getName() + "-" + loai, nameGroup));
             nameFile.setText("");
         } else {
             //            StyledDocument doc = this.getTxtMessageInfo().getStyledDocument();
@@ -510,12 +483,12 @@ public class GroupChatFrame extends javax.swing.JFrame {
             //            StyleConstants.setForeground(style, Color.MAGENTA);
             //            String message = "File quá lớn!" + "\n";
             //            try {
-                //                int length = doc.getLength();
-                //                doc.insertString(doc.getLength(), message, style);
-                //                doc.setParagraphAttributes(length + 1, 1, left, false);
-                //            } catch (Exception e) {
-                //                System.out.println(e);
-                //            }
+            //                int length = doc.getLength();
+            //                doc.insertString(doc.getLength(), message, style);
+            //                doc.setParagraphAttributes(length + 1, 1, left, false);
+            //            } catch (Exception e) {
+            //                System.out.println(e);
+            //            }
             JOptionPane.showMessageDialog(this, "File quá lớn!!");
         }
     }//GEN-LAST:event_btnSendActionPerformed
@@ -538,7 +511,7 @@ public class GroupChatFrame extends javax.swing.JFrame {
     public JPanel getTxtChat() {
         return txtChat;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -551,7 +524,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList lsMember;
@@ -560,7 +532,6 @@ public class GroupChatFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollChat;
     private javax.swing.JPanel txtChat;
     private javax.swing.JTextField txtMessage;
-    private javax.swing.JTextPane txtMessageInfo;
     // End of variables declaration//GEN-END:variables
 
     public void MoveUserFromUserToAddModel(String name) {

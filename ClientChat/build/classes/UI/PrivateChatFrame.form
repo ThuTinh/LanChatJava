@@ -47,8 +47,8 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="txtMessage" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="txttenfile" pref="113" max="32767" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txttenfile" pref="121" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnimg" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnLink" min="-2" pref="38" max="-2" attributes="0"/>

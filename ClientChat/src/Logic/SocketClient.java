@@ -406,23 +406,7 @@ public class SocketClient implements Runnable {
                         JLabel lbChat = new JLabel(msg.content);
                         lbChat.setForeground(Color.GREEN);
                         groupChatFrames[FindGroupFame(msg.recipient)].getTxtChat().add(lbChat);
-                        groupChatFrames[FindGroupFame(msg.recipient)].getTxtChat().revalidate();
-
-                        //cái cũ
-                        int groupID = FindGroupFame(msg.recipient);
-                        StyledDocument doc = groupChatFrames[groupID].getTxtMessageInfo().getStyledDocument();
-                        SimpleAttributeSet right = new SimpleAttributeSet();
-                        StyleConstants.setAlignment(right, StyleConstants.ALIGN_LEFT);
-                        Style style = groupChatFrames[groupID].getTxtMessageInfo().addStyle(null, null);
-                        StyleConstants.setForeground(style, Color.RED);
-                        try {
-                            int length = doc.getLength();
-                            String message = msg.content + "\n";
-                            doc.insertString(doc.getLength(), message, style);
-                            doc.setParagraphAttributes(length + 1, 1, right, false);
-                        } catch (Exception e) {
-                            // System.out.println(e);
-                        }
+                        groupChatFrames[FindGroupFame(msg.recipient)].getTxtChat().revalidate();                      
                     }
                     break;
                     case "GroupLeave": {
@@ -442,19 +426,7 @@ public class SocketClient implements Runnable {
                             //this.send(new Message("GroupChatGetUserList", mainFrame.username, msg.recipient, "Server"));
                             int groupID = FindGroupFame(msg.recipient);
                             groupChatFrames[groupID].MoveUserFromUserToAddModel(msg.content);
-                            StyledDocument doc = groupChatFrames[groupID].getTxtMessageInfo().getStyledDocument();
-                            SimpleAttributeSet right = new SimpleAttributeSet();
-                            StyleConstants.setAlignment(right, StyleConstants.ALIGN_CENTER);
-                            Style style = groupChatFrames[groupID].getTxtMessageInfo().addStyle(null, null);
-                            StyleConstants.setForeground(style, Color.RED);
-                            try {
-                                int length = doc.getLength();
-                                String message = msg.content + " has left this group!\n";
-                                doc.insertString(doc.getLength(), message, style);
-                                doc.setParagraphAttributes(length + 1, 1, right, false);
-                            } catch (Exception e) {
-                                // System.out.println(e);
-                            }
+                            groupChatFrames[groupID].getTxtChat().add(new JLabel(msg.content + " has left this group!"));                       
                         }
 
                     }
